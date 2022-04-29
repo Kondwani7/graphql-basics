@@ -44,7 +44,7 @@ const AuthorType = new GraphQLObjectType({
     description: "This represents a author of a book",
     fields: () => ({
         id: {type: GraphQLNonNull(GraphQLInt)},
-        name: {type: GraphQLNonNull(GraphQLInt)},
+        name: {type: GraphQLNonNull(GraphQLString)},
         books: {
             type: new GraphQLList(BookType),
             resolve:(author) => {
@@ -63,6 +63,11 @@ const RootQueryType = new GraphQLObjectType({
             description: 'List of All Books',
             resolve: () => books
         },
+        authors:{
+            type: new GraphQLList(AuthorType),
+            description: "list of authors",
+            resolve: () => authors
+        }
     })
 })
 //schema

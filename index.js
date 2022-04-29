@@ -29,10 +29,30 @@ const BookType = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLInt) },
         name: { type: GraphQLNonNull(GraphQLString) },
         authorId: { type: GraphQLNonNull(GraphQLInt) },
+        author: {
+            type: AuthorType,
+            resolve: (book) => {
+                return authors.find(author => author.id === book.authorId)
+            }
+
+        }
     })
 })
 //author query
-
+const AuthorType = new GraphQLObjectType({
+    name: "Author",
+    description: "This represents a author of a book",
+    fields: () => ({
+        id: {type: GraphQLNonNull(GraphQLInt)},
+        name: {type: GraphQLNonNull(GraphQLInt)},
+        books: {
+            type: new GraphQLList(BookType),
+            resolve:(author) => {
+                return books.filter(book => book.authorId == author.id)
+            }
+        }
+    })
+})
 //root query
 const RootQueryType = new GraphQLObjectType({
     name: "Query",
